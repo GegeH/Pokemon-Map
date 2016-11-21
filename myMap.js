@@ -11,8 +11,8 @@ map_items = [
     {
         "pokemon_id" : 12,
         "expire" : 1234567,
-        "longitude" : -73.9828028,
-        "latitude" : 40.7575988
+        "longitude" : -83.0455278,
+        "latitude" : 40.0483715
     }
 ]
 
