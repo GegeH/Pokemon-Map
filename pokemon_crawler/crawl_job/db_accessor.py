@@ -2,7 +2,7 @@ import psycopg2
 
 def add_pokemon_to_db(encounter_id, expire, pokemon_id, latitude, longitude):
 	# 1. Open connection
-    conn = psycopg2.connect(host = "pokemon-map-db.cmbjwgmj5nhq.us-west-2.rds.amazonaws.com",
+    conn = psycopg2.connect(host = "pom",
 							port = 5432,
 							user = "pokemondb",
 							password = "pokemondb",
