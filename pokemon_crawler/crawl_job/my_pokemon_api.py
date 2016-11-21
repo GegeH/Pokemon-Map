@@ -16,7 +16,7 @@ from  mock_pgoapi import mock_pgoapi as pgoapi
 
 log = logging.getLogger(__name__)
 
-SQS_QUEUE_NAME = "awseb-e-eam7mbpzsb-stack-AWSEBWorkerQueue-1GC5TT53K4GNJ" 
+SQS_QUEUE_NAME = "awseb-e-bmbqfdmg45-stack-AWSEBWorkerQueue-PAILYMU9AQ3J" 
 
 # scan all pokemon info in this area
 def scan_area (north, south, west, east, api):
