@@ -54,9 +54,9 @@ function refresh_pokemon_layer() {
     // Prepare new layer
     var pokemon_layer = get_pokemon_layer_from_map_itmes(map_manager.map_items)
     // Remove old layer
-    map.layers.clear()
+    map_manager.map.layers.clear()
     // Add new layer
-    map.layers.insert(pokemon_layer);
+    map_manager.map.layers.insert(pokemon_layer);
 }
 
 
