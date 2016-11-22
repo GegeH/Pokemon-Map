@@ -7,7 +7,7 @@ var map_manager = {
 map_manager.map_items = [
     {
         "pokemon_id" : 12,
-        "expire" : 1479768309,
+        "expire" : 1479782067,
         "longitude" : -83.0455278,
         "latitude" : 40.0483715
     }
@@ -60,12 +60,33 @@ function refresh_pokemon_layer() {
 }
 
 
-
-
 // 4. Connect with REST API
+function refresh_pokemon_data() {
+    // Get boundary of current map view
+    var bounds = map_manager.map.getBounds();
+    
+    // Request pokemons in current map view
+    var apigClient = apigClientFactory.newClient();
+    var params = {      
+        north: bounds.getNorth(),
+        south: bounds.getSouth(),
+        east: bounds.getEast(),
+        west: bounds.getWest()
+    };
+    var body = { };
+    var additionalParams = { };
+
+    apigClient.mapPokemonGET(params, body, additionalParams)
+        .then(function(result){
+            //This is where you would put a success callback
+            console.log(result)
+        }).catch( function(result){
+            //This is where you would put an error callback
+            console.log(result)
+        });
+}
 
 
 
-
-
+window.setInterval(refresh_pokemon_data, 1000);
 window.setInterval(refresh_pokemon_layer, 1000);
