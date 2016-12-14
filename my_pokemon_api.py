@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-import s2sphere
-from s2sphere import CellId, math
-
 import os
 import sys
 import json
@@ -10,85 +7,76 @@ import pprint
 import logging
 import getpass
 import argparse
-import boto3
 
-from  mock_pgoapi import mock_pgoapi as pgoapi
+
+import s2sphere
+from s2sphere import CellId, math
+
+from mock_pgoapi import mock_pgoapi as pgoapi
 
 log = logging.getLogger(__name__)
 
-SQS_QUEUE_NAME = "awseb-e-bmbqfdmg45-stack-AWSEBWorkerQueue-PAILYMU9AQ3J" 
-
-# scan all pokemon info in this area
-def scan_area (north, south, west, east, api):
-	result = []
-
-    # 1. Find all point to search within the area
-	cell_ids = break_down_area_to_cell(north, south, west, east)	
-
-    # 2. Search each point, get result from api
-	work_queue = boto3.resource('sqs', region_name='us-west-2').get_queue_by_name(QueueName=SQS_QUEUE_NAME)
-	for cell_id in cell_ids:
-		print cell_id
-
-		# 3. Send request to elastic beanstalk worker server
-		work_queue.send_message(MessageBody=json.dumps({"cell_id":cell_id})) 
-	return result
-
-
-# No.1 function 
 def break_down_area_to_cell(north, south, west, east):
-    """Return a list of S2 cell id """
+    """ Return a list of s2 cell id """
     result = []
 
     region = s2sphere.RegionCoverer()
     region.min_level = 15
     region.max_level = 15
-
     p1 = s2sphere.LatLng.from_degrees(north, west)
     p2 = s2sphere.LatLng.from_degrees(south, east)
     cell_ids = region.get_covering(s2sphere.LatLngRect.from_point_pair(p1, p2))
-
-    result += [ cell_id.id() for cell_id in cell_ids ]
+    result += [ cell_id.id() for cell_id in cell_ids ] 
 
     return result
 
-
 def get_position_from_cell_id(cellid):
-	cell = CellId(id_ = cellid).to_lat_lng()
-	return (math.degrees(cell._LatLng__coords[0]), math.degrees(cell._LatLng__coords[1]), 0)
+    cell = CellId(id_ = cellid).to_lat_lng()
+    return (math.degrees(cell._LatLng__coords[0]), math.degrees(cell._LatLng__coords[1]), 0)
 
-
-# No.2 function
 def search_point(cell_id, api):
-
     # parse position
-    # !! get position from cell_id
-    position = get_position_from_cell_id(cell_id)
+    position = get_position_from_cell_id(cell_id) 
 
     # set player position on the earth
     api.set_position(*position)
 
 
     # print get maps object
-    cell_ids = [ cell_id ]
-    timestamps = [0]
+    cell_ids = [ cell_id ]  
+    timestamps = [0] 
     response_dict = api.get_map_objects(latitude =position[0], 
-										longitude = position[1], 
-										since_timestamp_ms = timestamps, 
-										cell_id = cell_ids)
+                                        longitude = position[1], 
+                                        since_timestamp_ms = timestamps, 
+                                        cell_id = cell_ids)
 
-    return response_dict
+    return response_dict 
 
-# No.3 function
 def parse_pokemon(search_response):
-	map_cells = search_response["responses"]["GET_MAP_OBJECTS"]["map_cells"]
-	map_cell = map_cells[0]
-	catchable_pokemons = map_cell["catchable_pokemons"]
-	return catchable_pokemons
+    map_cells = search_response["responses"]["GET_MAP_OBJECTS"]["map_cells"]
+    map_cell = map_cells[0]
+    catchable_pokemons = map_cell["catchable_pokemons"] 
+    
+    return catchable_pokemons 
 
+def scan_area(north, south, west, east, api):
+    result = []
 
+    # 1. Find all point to search with the area
+    cell_ids = break_down_area_to_cell(north, south, west, east)
 
-# Inir config from api
+    # 2. Search each point, get result from api
+    for cell_id in cell_ids:
+        search_response = search_point(cell_id, api)
+
+        # 3. Parse pokemon info
+        pokemons = parse_pokemon(search_response)
+
+        # 4. Aggregate pokemon info and return
+        result += pokemons
+
+    return result
+
 def init_config():
     parser = argparse.ArgumentParser()
     config_file = "config.json"
@@ -128,32 +116,32 @@ def init_config():
     return config
 
 
-def init_api(config):
-	# instantiate pgoapi
-	api = pgoapi.PGoApi()
-	api.set_proxy({'http': config.proxy, 'https': config.proxy})
+
+if __name__ == "__main__":
+    config = init_config()
+
+    # instantiate pgoapi
+    api = pgoapi.PGoApi()
+    api.set_proxy({'http': config.proxy, 'https': config.proxy})
+
 
     # new authentication initialitation
-	if config.proxy:
-		api.set_authentication(provider = config.auth_service, 
-							   username = config.username, password =  config.password, 
-							   proxy_config = {'http': config.proxy, 'https': config.proxy})
-	else:
-		api.set_authentication(provider = config.auth_service, username = config.username, password =  config.password)
+    if config.proxy:
+        api.set_authentication(provider = config.auth_service, 
+                               username = config.username, password =  config.password, proxy_config = {'http': config.proxy, 'https': config.proxy})
+    else:
+        api.set_authentication(provider = config.auth_service, username = config.username, password =  config.password)
 
     # provide the path for your encrypt dll
-	api.activate_signature("/home/ubuntu/pgoapi/libencrypt.so")
-
-	return api
+    api.activate_signature("/home/ubuntu/pgoapi/libencrypt.so")
 
 
-# main 
-if __name__ == "__main__":
-	config = init_config()
 
-	api = init_api(config)
 
-    # Point 1: 40.7665138, -74.0003176
-    # Point 2: 40.7473342, -73.987958
-	print scan_area(41.7665138, 40.7473342, -74.0003176, -73.987958, api)
+    # Point 1: 40.7665138,-74.0003176
+    # Point 2: 40.7473342,-73.987958
+    print scan_area(40.7565138, 40.7473342, -74.0003176, -73.997958, api)
+
+
+
 
