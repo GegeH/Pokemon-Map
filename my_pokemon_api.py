@@ -74,7 +74,7 @@ def scan_area(north, south, west, east, api):
 
         # 4. Aggregate pokemon info and return
         result += pokemons
-
+    print result
     return result
 
 def init_config():
@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
     # Point 1: 40.7665138,-74.0003176
     # Point 2: 40.7473342,-73.987958
-    print scan_area(40.7565138, 40.7473342, -74.0003176, -73.997958, api)
+    print scan_area(40.0455522, 40.0335522, -83.0835675, -83.0235675, api)
 
 
 
