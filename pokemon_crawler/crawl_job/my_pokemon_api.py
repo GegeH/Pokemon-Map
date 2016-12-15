@@ -68,7 +68,7 @@ def scan_area(north, south, west, east, api):
     # 2. Search each point, get result from api
     for cell_id in cell_ids:
         search_response = search_point(cell_id, api)
-
+        print cell_id
         # 3. Parse pokemon info
         pokemons = parse_pokemon(search_response)
 
@@ -115,11 +115,7 @@ def init_config():
 
     return config
 
-
-
-if __name__ == "__main__":
-    config = init_config()
-
+def init_api(config):
     # instantiate pgoapi
     api = pgoapi.PGoApi()
     api.set_proxy({'http': config.proxy, 'https': config.proxy})
@@ -135,12 +131,18 @@ if __name__ == "__main__":
     # provide the path for your encrypt dll
     api.activate_signature("/home/ubuntu/pgoapi/libencrypt.so")
 
+    return api
 
 
+if __name__ == "__main__":
+    config = init_config()
+
+    # instantiate pgoapi
+    api = init_api(config)
 
     # Point 1: 40.7665138,-74.0003176
     # Point 2: 40.7473342,-73.987958
-    print scan_area(40.0455522, 40.0335522, -83.0835675, -83.0235675, api)
+    print scan_area(40.0445522, 40.0425522, -83.0445675, -83.0425675, api)
 
 
 
