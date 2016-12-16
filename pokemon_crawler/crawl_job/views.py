@@ -4,7 +4,7 @@ import json
 from django.shortcuts import render
 from django.http import HttpResponse
 from my_pokemon_api import *
-# from db_accessor import *
+from db_accessor import *
 
 logger = logging.getLogger("worker")
 
@@ -36,11 +36,11 @@ def add_crawl_point(request):
 
     # 3. Store search result into database
     # encounter_id, expire, pokemon_id, latitude, longitude
-   # for pokemon in result:
-    #    add_pokemon_to_db(pokemon["encounter_id"],
-     #                     pokemon["expiration_timestamp_ms"],
-      #                    pokemon["pokemon_id"],
-       #                   pokemon["latitude"],
-        #                  pokemon["longitude"])    
+    for pokemon in result:
+        add_pokemon_to_db(pokemon["encounter_id"],
+                          pokemon["expiration_timestamp_ms"],
+                          pokemon["pokemon_id"],
+                          pokemon["latitude"],
+                          pokemon["longitude"])    
 
     return HttpResponse("Result")
