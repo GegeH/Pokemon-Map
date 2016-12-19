@@ -3,7 +3,7 @@ var map_manager = {
     "map_items" : []
 }
 
-map_item = [
+map_manager.map_items = [
     {
         "pokemon_id" : 288,
         "expire" : 1482136574,
