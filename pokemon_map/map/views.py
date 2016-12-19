@@ -1,3 +1,8 @@
-from django.shortcuts import render
+import logging
+import json
 
-# Create your views here.
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def pokemons(request):
+    return HttpResponse("Charmander")
