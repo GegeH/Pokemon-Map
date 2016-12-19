@@ -28,6 +28,7 @@ function get_counter_down_time_from_expire_epoch(epoch) {
   return minute + ":" + second;
 }
 
+
 // 2. Create pokemon image on map
 function get_pokemon_layer_from_map_items(map_items) {
     var layer = new Microsoft.Maps.Layer();
@@ -58,7 +59,33 @@ function refresh_pokemon_layer() {
   // Add new layer
   map_manager.map.layers.insert(pokemon_layer);
 }
+
+
 // 4. Connect with REST API
+function refresh_pokemon_data() {
+  // Get boundary of current map view
+  var bounds = map_manager.map.getBounds();
+  
+  // Request pokemons in current map view
+  var apigClient = apigClientFactory.newClient();
+  var params = {
+    north: bounds.getNorth(),
+    south: bounds.getSouth(),
+    west: bounds.getWest(),
+    east: bounds.getEast(),
+  };
+  var body = { };
+  var additionalParams = { };
+ 
+  apigClient.mapPokemonsGet(params, body, additionalParams)
+    .then(function(result){
+        //This is where you would put a success callback
+        map_manager.map_items = result.data;
+    }).catch( function(result){
+        //This is where you would put an error callback
+        console.log(result)
+    });   
+}
 
-
+window.setInterval(refresh_pokemon_data, 1000);
 window.setInterval(refresh_pokemon_layer, 1000);
