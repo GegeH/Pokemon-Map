@@ -5,16 +5,15 @@ var map_manager = {
 
 map_item = [
     {
-        "pokemon_id" : 88,
+        "pokemon_id" : 288,
         "expire" : 1482136574,
         "longitude" : -83.0435675,
         "latitude" : 40.0435522,
     }
 ]
 
-var map;
 function loadMapScenario() {
-    map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+    map_manager.map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
         credentials: 'AjHg4poymQ-3nnoVKmwS7U3gSkfZLFWu8pah1HIa0N8tv2gzaJoZvqHBAcWNADb7'
     });
     add_pokemon_layer();
