@@ -59,3 +59,6 @@ function refresh_pokemon_layer() {
   map_manager.map.layers.insert(pokemon_layer);
 }
 // 4. Connect with REST API
+
+
+window.setInterval(refresh_pokemon_data, 1000);
