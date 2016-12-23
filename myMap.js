@@ -14,6 +14,19 @@ map_manager.map_items = [
     }
 ]
 
+function set_user_current_location() {
+    // Change initial view if possible
+    if (navigator.geolocation) {
+      function set_initial_view(position) {
+        map_manager.map.setView({
+            center: new Microsoft.Maps.Location(position.coords.latitude, position.coords.longitude),
+        });
+      }
+      navigator.geolocation.getCurrentPosition(set_initial_view);
+    }
+}
+
+
 function loadMapScenario() {
     map_manager.map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
         credentials: 'AjHg4poymQ-3nnoVKmwS7U3gSkfZLFWu8pah1HIa0N8tv2gzaJoZvqHBAcWNADb7',
@@ -24,6 +37,22 @@ function loadMapScenario() {
         useInertia: false,
         showMapTypeSelector: false,
     });
+     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+        map_manager.map.setView({
+            // Use time square as starting point.
+            center: new Microsoft.Maps.Location(40.7553085,-73.9844294),
+            zoom: 17
+        });
+    }
+    else {
+        map_manager.map.setView({
+            // Use time square as starting point.
+            center: new Microsoft.Maps.Location(40.7553085,-73.9844294),
+            zoom: 15
+        });
+    }
+    set_user_current_location();
+    
     add_pokemon_layer();
 }
 
