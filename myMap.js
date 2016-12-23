@@ -57,7 +57,7 @@ function loadMapScenario() {
     // Every time user view changed, update the map
     Microsoft.Maps.Events.addHandler(map_manager.map, 'viewchangeend', refresh_pokemon_data);
     
-//  add_pokemon_layer();
+    add_pokemon_layer();
 }
 
 // 1. Define pokemon data format, create mock pokemon data
