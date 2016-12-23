@@ -22,6 +22,11 @@ html, body {
   height: 48px;
   border-radius: 24px;
 }
+.demo-header h3 {
+	font-size: 28px;
+	font-weight: bold;
+	font-family: fantasy, cursive, 'Roboto';
+}
 .demo-layout .demo-header .mdl-textfield {
   padding: 0px;
   margin-top: 41px;
@@ -102,7 +107,7 @@ html, body {
 }
 
 .demo-maps {
-  height: 75vh;
+  padding: 16px 32px;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -124,31 +129,8 @@ _:-ms-input-placeholder, :root .demo-graph {
   max-height: 300px;
 }
 
-.demo-cards {
-  -webkit-align-items: flex-start;
-      -ms-flex-align: start;
-              -ms-grid-row-align: flex-start;
-          align-items: flex-start;
-  -webkit-align-content: flex-start;
-      -ms-flex-line-pack: start;
-          align-content: flex-start;
-}
-.demo-cards .demo-separator {
-  height: 32px;
-}
-.demo-cards .mdl-card__title.mdl-card__title {
-  color: white;
-  font-size: 24px;
-  font-weight: 400;
-}
-.demo-cards ul {
-  padding: 0;
-}
-.demo-cards h3 {
-  font-size: 1em;
-}
-
 .demo-icon1 {
+  min-height: 200px;
   background-image: url('images/pikachu_icon.png');
 }
 .demo-icon2 {
@@ -159,14 +141,11 @@ _:-ms-input-placeholder, :root .demo-graph {
 }
 
 .demo-updates .mdl-card__title {
-  min-height: 200px;
-  background-position: 90% 100%;
+  min-height: 120px;
+  color: #474d56;
+  background-size: 12%;
+  background-position: 92% 100%;
   background-repeat: no-repeat;
-}
-
-.demo-cards .mdl-card__actions a {
-  color: #00BCD4;
-  text-decoration: none;
 }
 
 .demo-options h3 {
@@ -196,6 +175,11 @@ _:-ms-input-placeholder, :root .demo-graph {
           align-items: center;
 }
 
-.faq-card {
+/*.faq-card {
     display: none;
+}*/
+
+.faq-card h2 {
+	font-weight: bold;
+	font-size: 22px
 }
