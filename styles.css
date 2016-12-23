@@ -107,7 +107,7 @@ html, body {
 }
 
 .demo-maps {
-  padding: 16px 32px;
+  height: 75vh;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -130,7 +130,6 @@ _:-ms-input-placeholder, :root .demo-graph {
 }
 
 .demo-icon1 {
-  min-height: 200px;
   background-image: url('images/pikachu_icon.png');
 }
 .demo-icon2 {
@@ -175,11 +174,11 @@ _:-ms-input-placeholder, :root .demo-graph {
           align-items: center;
 }
 
-/*.faq-card {
+.faq-card {
     display: none;
-}*/
+}
 
 .faq-card h2 {
-	font-weight: bold;
-	font-size: 22px
+    font-weight: bold;
+    font-size: 22px
 }
