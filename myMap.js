@@ -51,9 +51,13 @@ function loadMapScenario() {
             zoom: 15
         });
     }
+    
     set_user_current_location();
     
-    add_pokemon_layer();
+    // Every time user view changed, update the map
+    Microsoft.Maps.Events.addHandler(map_manager.map, 'viewchangeend', refresh_pokemon_data);
+    
+//  add_pokemon_layer();
 }
 
 // 1. Define pokemon data format, create mock pokemon data
