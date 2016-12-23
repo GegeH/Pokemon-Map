@@ -1,3 +1,5 @@
+var query_type = "pokemon"
+
 var map_manager = {
     "map" : null,
     "map_items" : []
@@ -82,16 +84,93 @@ function refresh_pokemon_data() {
   };
   var body = { };
   var additionalParams = { };
- 
-  apigClient.mapPokemonsGet(params, body, additionalParams)
-    .then(function(result){
-        //This is where you would put a success callback
-        map_manager.map_items = result.data;
-    }).catch( function(result){
-        //This is where you would put an error callback
-        console.log(result)
-    });   
+    
+  if (query_type = "pokemon") {
+      apigClient.mapPokemonsGet(params, body, additionalParams)
+        .then(function(result){
+            //This is where you would put a success callback
+            map_manager.map_items = result.data;
+        }).catch( function(result){
+            //This is where you would put an error callback
+            console.log(result)
+        });
+  } 
+  if (query_type = "pokeshop") {
+      apigClient.mapPokemonsGet(params, body, additionalParams)
+        .then(function(result){
+            //This is where you would put a success callback
+            map_manager.map_items = result.data;
+        }).catch( function(result){
+            //This is where you would put an error callback
+            console.log(result)
+        });
+  }
+  if (query_type = "gym") {
+      apigClient.mapPokemonsGet(params, body, additionalParams)
+        .then(function(result){
+            //This is where you would put a success callback
+            map_manager.map_items = result.data;
+        }).catch( function(result){
+            //This is where you would put an error callback
+            console.log(result)
+        });
+  }
+    
+
 }
+
+
+function close_drawer_if_open() {
+    if (document.querySelector('.mdl-layout__obfuscator').classList.contains('is-visible')) {
+        var layout = document.querySelector('.mdl-layout');
+        layout.MaterialLayout.toggleDrawer();
+    }
+}
+
+function query_type_changed() {
+    map_manager.map_items =[];
+    refresh_pokemon_data();
+    refresh_pokemon_layer();
+    close_drawer_if_open();
+}
+
+
+function query_pokemon() {
+    query_type = "pokemon";
+    document.getElementById('home_title').innerHTML="Pokemon Map"
+    console.log("Switch to query pokemon");
+    query_type_changed();
+}
+
+function query_pokeshop() {
+    query_type= "pokeshop"
+    document.getElementById('home_title').innerHTML="Pokestop Map"
+    console.log("Switch to query pokestop");
+    query_type_changed();
+}
+
+function query_gym() {
+    query_type= "gym"
+    document.getElementById('home_title').innerHTML="Pokemon Gym Map"
+    console.log("Switch to query gym");
+    query_type_changed();
+}
+
+
+function toggle_faq_list() {
+    for( var i = 1; i <= 6; i++) {
+        var faq_card = document.getElementById('faq' + i);
+        if (faq_card.style.display == "") {
+            faq_card.style.display = "inline"
+        }
+        else {
+            faq_card.style.display = ""
+        }
+    }
+    close_drawer_if_open();
+}
+
+
 
 window.setInterval(refresh_pokemon_data, 1000);
 window.setInterval(refresh_pokemon_layer, 1000);
