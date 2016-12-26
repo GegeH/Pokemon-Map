@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from db_accessor import get_pokemons_from_db
 
-SQS_QUEUE_NAME="awseb-e-s6ecpqmrqi-stack-AWSEBWorkerQueue-2APFWWBMUCCF"
+SQS_QUEUE_NAME=os.environ["SQS_NAME"]
 
 def break_down_area_to_cell(north, south, west, east):
     """ Return a list of s2 cell id """
